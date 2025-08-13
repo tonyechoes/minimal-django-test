@@ -1,0 +1,1 @@
+web: gunicorn minimal_test.wsgi:application --bind 0.0.0.0:$PORT --timeout 120 
