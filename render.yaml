@@ -2,29 +2,15 @@ services:
   - type: web
     name: minimal-test-django
     env: python
-    buildCommand: |
-      pip install -r requirements.txt
-      python manage.py collectstatic --no-input
-      python manage.py migrate
+    buildCommand: pip install -r requirements.txt
     startCommand: gunicorn minimal_test.wsgi:application --bind 0.0.0.0:$PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.13.1
       - key: DEBUG
-        value: False
+        value: True
       - key: SECRET_KEY
         generateValue: true
-      - key: ALLOWED_HOSTS
-        value: minimal-test-django.onrender.com
-      - key: DATABASE_URL
-        fromDatabase:
-          name: minimal-test-db
-          property: connectionString
     healthCheckPath: /
     healthCheckTimeout: 300
     autoDeploy: true
-
-databases:
-  - name: minimal-test-db
-    databaseName: minimal_test
-    user: minimal_test_user
